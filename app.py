@@ -1,16 +1,13 @@
 import os
-import joblib
 import pickle
 import streamlit as st
 import pandas as pd
 from PIL import Image
 
-
 # Set page configuration
 st.set_page_config(page_title="Flight Delay Prediction",
                    layout="wide",
-                   page_icon="🔐")
-
+                   page_icon="✈️")
 
 # Load the saved models
 with open('rf_model.sav', 'rb') as model_file:
@@ -21,7 +18,7 @@ with open('encoder.sav', 'rb') as encoder_file:
     encoder_columns = pickle.load(encoder_file)
 
 # Define the title text
-title_text = "Metaverse Fraud Detection"
+title_text = "Flight Delay Prediction"
 
 # Define the background color and text color of the title box
 background_color = "#23395d"
@@ -35,7 +32,7 @@ title_html = f"""
     </div>
     <body>
       <br>
-        <center>Welcome! We're here to safeguard the integrity of virtual worlds and ensure a fraud-free experience.</center>
+        <center>Welcome! We're here to help predict your flight delays.</center>
     </body>
 """
 
@@ -45,24 +42,27 @@ st.markdown(title_html, unsafe_allow_html=True)
 # Getting the input data from the user
 col1, col2 = st.columns(2)
 
+# Actual input for prediction
 with col1:
-    time_category = st.selectbox('Departure Time',('before 6am', '6am to 11.59pm', '12pm to 6pm','after 6pm'))
+    time_category = st.selectbox('Departure Time', ('before 6am', '6am to 11:59am', '12pm to 6pm', 'after 6pm'))
+
+# Dummy inputs for display purposes
 with col2:
-    amount = st.number_input('Flight Number')
+    st.number_input('Flight Number')
 with col1:
-    transaction_type = st.selectbox('Day of the Week', ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))
+    st.selectbox('Day of the Week', ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))
 with col2:
-    session_duration = st.number_input('Flight Time (minutes)')
+    st.number_input('Flight Time (minutes)')
 with col1:
-    location_region = st.selectbox('Flight Region', ('Africa', 'Asia', 'Europe', 'North America', 'South America'))
+    st.selectbox('Flight Region', ('Africa', 'Asia', 'Europe', 'North America', 'South America'))
 with col2:
-    login_frequency = st.number_input('Login Frequency',step=1)
+    st.number_input('Login Frequency', step=1)
 with col2:
-    ip_prefix = st.selectbox('IP Prefix', ('10.0', '172.0', '172.16', '192.0', '192.168'))
+    st.selectbox('IP Prefix', ('10.0', '172.0', '172.16', '192.0', '192.168'))
 with col1:
-    purchase_pattern = st.selectbox('Departure Airport Traffic', ('Low', 'Medium', 'High'))
+    st.selectbox('Departure Airport Traffic', ('Low', 'Medium', 'High'))
 with col2:
-    age_group = st.selectbox('Arrival Airport Traffic', ('Low', 'Medium', 'High'))
+    st.selectbox('Arrival Airport Traffic', ('Low', 'Medium', 'High'))
 
 # Code for Prediction
 if st.button('Predict Delay'):
@@ -81,7 +81,7 @@ if st.button('Predict Delay'):
     input_data_encoded = input_data_encoded.reindex(columns=encoder_columns, fill_value=0)
 
     # Perform the prediction
-    prediction = model.predict(input_data)
+    prediction = model.predict(input_data_encoded)
 
     # Select Probability of Delay Output
     if prediction[0] == 0:
