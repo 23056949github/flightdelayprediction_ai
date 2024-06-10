@@ -1,4 +1,5 @@
 import streamlit as st
+import random
 
 # Set page configuration
 st.set_page_config(page_title="Flight Delay Prediction",
@@ -88,14 +89,15 @@ with col2:
     airline = st.selectbox('Airline', 
                            ('American Airlines', 'Delta', 'United', 'Southwest', 'JetBlue', 'Alaska Airlines'))
 
-# Define possible outputs for Probability of Delay
-st.write("### Probability of Delay")
-probability_of_delay = st.radio('Select Probability of Delay Output', 
-                                ('Low Probability of Delay', 'Moderate Probability of Delay', 'High Probability of Delay'))
+# Predict button
+if st.button('Predict'):
+    # Randomly select probability of delay
+    probability_of_delay = random.choice(['Low Probability of Delay', 'Moderate Probability of Delay', 'High Probability of Delay'])
 
-if probability_of_delay == 'Low Probability of Delay':
-    st.write("There is a 20% chance that the flight will be delayed.")
-elif probability_of_delay == 'Moderate Probability of Delay':
-    st.write("There is a 50% chance that the flight will be delayed.")
-elif probability_of_delay == 'High Probability of Delay':
-    st.write("There is an 80% chance that the flight will be delayed.")
+    st.write("### Probability of Delay")
+    if probability_of_delay == 'Low Probability of Delay':
+        st.write("There is a 20% chance that the flight will be delayed.")
+    elif probability_of_delay == 'Moderate Probability of Delay':
+        st.write("There is a 50% chance that the flight will be delayed.")
+    elif probability_of_delay == 'High Probability of Delay':
+        st.write("There is an 80% chance that the flight will be delayed.")
