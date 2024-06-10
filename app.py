@@ -4,9 +4,9 @@ import pickle
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 
 # Load the models and encoders
-scaler = pickle.load(open('/mnt/data/scaler.sav', 'rb'))
-encoder = pickle.load(open('/mnt/data/encoder.sav', 'rb'))
-model = pickle.load(open('/mnt/data/rf_model.sav', 'rb'))
+scaler = pickle.load(open('scaler.sav', 'rb'))
+encoder = pickle.load(open('encoder.sav', 'rb'))
+model = pickle.load(open('rf_model.sav', 'rb'))
 
 # Define the Streamlit app
 st.title('Flight Delay Prediction')
