@@ -28,19 +28,23 @@ input_data = pd.DataFrame({
     'arrival_time': [arrival_time]
 })
 
-# Encode and scale the data
-input_data['airline'] = encoder.transform(input_data['airline'])
-input_data['origin'] = encoder.transform(input_data['origin'])
-input_data['destination'] = encoder.transform(input_data['destination'])
-input_data = scaler.transform(input_data)
+# Check if the encoder is a LabelEncoder instance
+if not isinstance(encoder, LabelEncoder):
+    st.error("The encoder is not a LabelEncoder instance. Please check your encoder.")
+else:
+    # Encode and scale the data
+    input_data['airline'] = encoder.transform(input_data['airline'])
+    input_data['origin'] = encoder.transform(input_data['origin'])
+    input_data['destination'] = encoder.transform(input_data['destination'])
+    input_data = scaler.transform(input_data)
 
-# Make predictions
-prediction = model.predict(input_data)
-probability = model.predict_proba(input_data)
+    # Make predictions
+    prediction = model.predict(input_data)
+    probability = model.predict_proba(input_data)
 
-# Display results
-st.write(f'Prediction: {"Delayed" if prediction[0] else "On Time"}')
-st.write(f'Probability of Delay: {probability[0][1]:.2f}')
+    # Display results
+    st.write(f'Prediction: {"Delayed" if prediction[0] else "On Time"}')
+    st.write(f'Probability of Delay: {probability[0][1]:.2f}')
 
-if st.checkbox('Show input data'):
-    st.write(input_data)
+    if st.checkbox('Show input data'):
+        st.write(input_data)
