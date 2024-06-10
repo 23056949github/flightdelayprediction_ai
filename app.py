@@ -66,16 +66,7 @@ with col2:
 if st.button('Predict Risk'):
     # Create a DataFrame with input data
     input_data = pd.DataFrame({
-        'amount': [amount],
-        'login_frequency': [login_frequency],
-        'session_duration': [session_duration],
-        'risk_score': [risk_score],
         'time_category': [time_category],
-        'transaction_type': [transaction_type],
-        'location_region': [location_region],
-        'ip_prefix': [ip_prefix],
-        'purchase_pattern': [purchase_pattern],
-        'age_group': [age_group]
     })
 
     # Perform one-hot encoding using pd.get_dummies
