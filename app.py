@@ -1,8 +1,10 @@
 import streamlit as st
+
 # Set page configuration
 st.set_page_config(page_title="Flight Delay Prediction",
                    layout="wide",
                    page_icon="✈️")
+
 # Define the title text
 title_text = "Flight Delay Prediction"
 
