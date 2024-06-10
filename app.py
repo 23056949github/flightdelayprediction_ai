@@ -48,11 +48,20 @@ with col1:
 with col2:
     amount = st.number_input('Flight Number')
 with col1:
-    transaction_type = st.selectbox('Transaction Type', ('phishing', 'purchase', 'sale', 'scam', 'transfer'))
+    transaction_type = st.selectbox('Day of the Week', ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))
 with col2:
     session_duration = st.number_input('Flight Time (minutes)')
+  
+# Select box for Weather at Departure Airport
 with col1:
-    login_frequency = st.number_input('Login Frequency',step=1)
+    weather_departure_temp = st.selectbox('Weather at Departure Airport - Temperature', 
+                                          ('<0°C', '0-10°C', '10-20°C', '20-30°C', '>30°C'))
+    weather_departure_visibility = st.selectbox('Weather at Departure Airport - Visibility', 
+                                                ('<1 km', '1-3 km', '3-5 km', '>5 km'))
+    weather_departure_wind = st.selectbox('Weather at Departure Airport - Wind Speed', 
+                                          ('<10 km/h', '10-20 km/h', '20-30 km/h', '>30 km/h'))
+    weather_departure_precipitation = st.selectbox('Weather at Departure Airport - Precipitation', 
+                                                   ('None', 'Rain', 'Snow', 'Fog'))
 with col2:
     risk_score = st.number_input('Risk Score')
 with col1:
@@ -100,7 +109,7 @@ if st.button('Predict Risk'):
     # Display the prediction result
 
     if prediction[0] == '0':
-        st.success('This transaction is predicted to be low risk.')
+        st.success('This flight is less likely to .')
     elif prediction[0] == '1':
         st.warning('This transaction is predicted to be moderate risk.')
     elif prediction[0] == '2':
