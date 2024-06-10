@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Set page configuration
-st.set_page_config(page_title="Flight Delay Prediction",
+st.set_page_config(page_title="Flight Delay Prediction ✈️✈️",
                    layout="wide",
                    page_icon="✈️")
 
@@ -35,9 +35,9 @@ with col1:
     departure_time = st.selectbox('Scheduled Departure Time', 
                                   ('before 6am', '6am to 11:59am', '12pm to 6pm', 'after 6pm'))
 
-# Number input for Flight Number
+# Text input for Flight Number
 with col2:
-    flight_number = st.number_input('Flight Number')
+    flight_number = st.text_input('Flight Number')
 
 # Select box for Day of the Week
 with col1:
