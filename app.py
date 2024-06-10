@@ -30,27 +30,33 @@ st.markdown(title_html, unsafe_allow_html=True)
 # Define the layout for the inputs
 col1, col2 = st.columns(2)
 
-# Select box for Departure Time
+# Select box for Airline
 with col1:
-    departure_time = st.selectbox('Scheduled Departure Time', 
-                                  ('before 6am', '6am to 11:59am', '12pm to 6pm', 'after 6pm'))
+    airline = st.selectbox('Airline', 
+                           ('Singapore Airlines', 'Emirates', 'Scoot', 'AirAsia', 'Jetstar', 'Malaysia Airlines', 'Others'))
 
 # Text input for Flight Number
 with col2:
     flight_number = st.text_input('Flight Number')
+
 
 # Select box for Day of the Week
 with col1:
     day_of_week = st.selectbox('Day of the Week', 
                                ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))
 
-# Time input for Scheduled Arrival Time
+# Select box for Departure Time
 with col2:
+    departure_time = st.selectbox('Scheduled Departure Time', 
+                                  ('before 6am', '6am to 11:59am', '12pm to 6pm', 'after 6pm'))
+
+# Time input for Scheduled Arrival Time
+with col1:
     arrival_time = st.selectbox('Scheduled Arrival Time', 
                                 ('before 6am', '6am to 11:59am', '12pm to 6pm', 'after 6pm'))
 
 # Select box for Weather at Departure Airport
-with col1:
+with col2:
     weather_departure_temp = st.selectbox('Weather at Departure Airport - Temperature', 
                                           ('<0°C', '0-10°C', '10-20°C', '20-30°C', '>30°C'))
     weather_departure_visibility = st.selectbox('Weather at Departure Airport - Visibility', 
@@ -61,7 +67,7 @@ with col1:
                                                    ('None', 'Rain', 'Snow', 'Fog'))
 
 # Select box for Weather at Arrival Airport
-with col2:
+with col1:
     weather_arrival_temp = st.selectbox('Weather at Arrival Airport - Temperature', 
                                         ('<0°C', '0-10°C', '10-20°C', '20-30°C', '>30°C'))
     weather_arrival_visibility = st.selectbox('Weather at Arrival Airport - Visibility', 
@@ -72,21 +78,17 @@ with col2:
                                                  ('None', 'Rain', 'Snow', 'Fog'))
 
 # Select box for Departure Airport Traffic
-with col1:
+with col2:
     departure_traffic = st.selectbox('Departure Airport Traffic', ('Low', 'Medium', 'High'))
 
 # Select box for Arrival Airport Traffic
-with col2:
+with col1:
     arrival_traffic = st.selectbox('Arrival Airport Traffic', ('Low', 'Medium', 'High'))
 
 # Select box for Historical Delays for the Specific Flight
-with col1:
+with col2:
     historical_delays = st.selectbox('Historical Delays for the Specific Flight', ('None', 'Low', 'Medium', 'High'))
 
-# Select box for Airline
-with col2:
-    airline = st.selectbox('Airline', 
-                           ('American Airlines', 'Delta', 'United', 'Southwest', 'JetBlue', 'Alaska Airlines'))
 
 # Define possible outputs for Probability of Delay
 st.write("### Probability of Delay")
