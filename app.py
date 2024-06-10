@@ -16,9 +16,8 @@ text_color = "#ffffff"
 
 # Apply HTML and CSS to style the title with a fancier font
 title_html = f"""
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <div style="background-color:{box_background_color};padding:8px;border-radius:10px;">
-        <h1 style="color:{text_color};text-align:center;font-family:'Pacifico', cursive;">{title_text}</h1>
+        <h1 style="color:{text_color};text-align:center;">{title_text}</h1>
     </div>
     <body>
       <br>
