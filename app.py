@@ -39,11 +39,11 @@ input_data['destination'] = destination_encoder.transform(input_data['destinatio
 input_data = input_data[['airline', 'origin', 'destination', 'departure_time', 'arrival_time']]
 
 # Scale the data
-input_data = scaler.transform(input_data)
+input_data_scaled = scaler.transform(input_data)
 
 # Make predictions
-prediction = model.predict(input_data)
-probability = model.predict_proba(input_data)
+prediction = model.predict(input_data_scaled)
+probability = model.predict_proba(input_data_scaled)
 
 # Display results
 st.write(f'Prediction: {"Delayed" if prediction[0] else "On Time"}')
