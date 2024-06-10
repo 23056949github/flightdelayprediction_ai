@@ -1,59 +1,46 @@
 import streamlit as st
-import numpy as np
 import pandas as pd
 import pickle
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 
-# Load the pre-trained models and encoders
-scaler = pickle.load(open('scaler.sav', 'rb'))
-rf_model = pickle.load(open('rf_model.sav', 'rb'))
-encoder = pickle.load(open('encoder.sav', 'rb'))
+# Load the models and encoders
+scaler = pickle.load(open('/mnt/data/scaler.sav', 'rb'))
+encoder = pickle.load(open('/mnt/data/encoder.sav', 'rb'))
+model = pickle.load(open('/mnt/data/rf_model.sav', 'rb'))
 
-# Title
-st.title("Flight Delay Detection")
+# Define the Streamlit app
+st.title('Flight Delay Prediction')
 
-# Sidebar for user input
-st.sidebar.header("Flight Information")
+# Input features for prediction
+st.sidebar.header('Flight Information')
+airline = st.sidebar.selectbox('Airline', ['Airline1', 'Airline2', 'Airline3'])
+origin = st.sidebar.selectbox('Origin', ['Origin1', 'Origin2', 'Origin3'])
+destination = st.sidebar.selectbox('Destination', ['Destination1', 'Destination2', 'Destination3'])
+departure_time = st.sidebar.slider('Departure Time', 0, 23, 12)
+arrival_time = st.sidebar.slider('Arrival Time', 0, 23, 14)
 
-# Function to get user input
-def get_user_input():
-    airline = st.sidebar.selectbox("Airline", ["Airline A", "Airline B", "Airline C"])
-    origin = st.sidebar.selectbox("Origin", ["JFK", "LAX", "SFO"])
-    destination = st.sidebar.selectbox("Destination", ["JFK", "LAX", "SFO"])
-    departure_time = st.sidebar.slider("Departure Time (24-hour)", 0, 23, 12)
-    
-    # Encoding categorical features
-    airline_encoded = encoder.transform([[airline]]).toarray()[0]
-    origin_encoded = encoder.transform([[origin]]).toarray()[0]
-    destination_encoded = encoder.transform([[destination]]).toarray()[0]
-    
-    # Create a dictionary of inputs
-    data = {
-        "Airline": airline_encoded,
-        "Origin": origin_encoded,
-        "Destination": destination_encoded,
-        "Departure Time": departure_time
-    }
-    
-    features = pd.DataFrame(data, index=[0])
-    return features
+# Create DataFrame from inputs
+input_data = pd.DataFrame({
+    'airline': [airline],
+    'origin': [origin],
+    'destination': [destination],
+    'departure_time': [departure_time],
+    'arrival_time': [arrival_time]
+})
 
-# Get user input
-user_input = get_user_input()
+# Encode and scale the data
+input_data['airline'] = encoder.transform(input_data['airline'])
+input_data['origin'] = encoder.transform(input_data['origin'])
+input_data['destination'] = encoder.transform(input_data['destination'])
+input_data = scaler.transform(input_data)
 
-# Scale input
-scaled_input = scaler.transform(user_input)
+# Make predictions
+prediction = model.predict(input_data)
+probability = model.predict_proba(input_data)
 
-# Prediction
-prediction = rf_model.predict(scaled_input)
-prediction_proba = rf_model.predict_proba(scaled_input)
+# Display results
+st.write(f'Prediction: {"Delayed" if prediction[0] else "On Time"}')
+st.write(f'Probability of Delay: {probability[0][1]:.2f}')
 
-# Display prediction
-st.subheader("Prediction")
-delay_status = "Delayed" if prediction == 1 else "On Time"
-st.write(f"The flight is predicted to be: **{delay_status}**")
-
-# Display prediction probability
-st.subheader("Prediction Probability")
-st.write(f"Probability of delay: {prediction_proba[0][1]:.2f}")
-st.write(f"Probability of on-time: {prediction_proba[0][0]:.2f}")
+if st.checkbox('Show input data'):
+    st.write(input_data)
