@@ -11,7 +11,6 @@ st.set_page_config(page_title="Flight Delay Prediction",
 
 # Define paths for the model files
 model_path = 'rf_model.sav'
-encoder_columns_path = 'encoder_columns.sav'
 
 # Function to load a pickle file and handle errors
 def load_pickle(file_path):
@@ -25,12 +24,14 @@ def load_pickle(file_path):
         st.error(f"An error occurred while loading {file_path}: {e}")
         return None
 
-# Load the saved model and encoder columns
+# Load the saved model
 model = load_pickle(model_path)
-encoder_columns = load_pickle(encoder_columns_path)
 
-if model is None or encoder_columns is None:
-    st.stop()  # Stop execution if the model or encoder columns are not loaded properly
+# Manually define the encoder columns
+encoder_columns = ['time_category_before 6am', 'time_category_6am to 11:59am', 'time_category_12pm to 6pm', 'time_category_after 6pm']
+
+if model is None:
+    st.stop()  # Stop execution if the model is not loaded properly
 
 # Define the title text
 title_text = "Flight Delay Prediction"
