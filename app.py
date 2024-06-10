@@ -51,21 +51,16 @@ with col1:
     transaction_type = st.selectbox('Day of the Week', ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))
 with col2:
     session_duration = st.number_input('Flight Time (minutes)')
-  
-# Select box for Weather at Departure Airport
 with col1:
-    login_frequency = st.selectbox('Weather at Departure Airport - Precipitation', 
-                                                   ('None', 'Rain', 'Snow', 'Fog'))
+    login_frequency = st.selectbox(Airline', ('American Airlines', 'Delta', 'United', 'Southwest', 'JetBlue', 'Alaska Airlines')) 
 with col2:
     risk_score = st.number_input('Risk Score')
-with col1:
-    location_region = st.selectbox('Weather at Departure Airport - Precipitation', ('None', 'Rain', 'Snow', 'Fog'))
 with col2:
     ip_prefix = st.selectbox('IP Prefix', ('10.0', '172.0', '172.16', '192.0', '192.168'))
 with col1:
-    purchase_pattern = st.selectbox('Pattern of Purchases Behaviour', ('focused', 'high value', 'random'))
+    purchase_pattern = st.selectbox('Departure Airport Traffic', ('Low', 'Medium', 'High'))
 with col2:
-    age_group = st.selectbox('Age Group Based on Activity History', ('new', 'veteran', 'established'))
+    age_group = st.selectbox('Arrival Airport Traffic', ('Low', 'Medium', 'High'))
 
 # Code for Prediction
 if st.button('Predict Risk'):
