@@ -54,12 +54,6 @@ with col2:
   
 # Select box for Weather at Departure Airport
 with col1:
-    login_frequency = st.selectbox('Weather at Departure Airport - Temperature', 
-                                          ('<0°C', '0-10°C', '10-20°C', '20-30°C', '>30°C'))
-    login_frequency = st.selectbox('Weather at Departure Airport - Visibility', 
-                                                ('<1 km', '1-3 km', '3-5 km', '>5 km'))
-    login_frequency = st.selectbox('Weather at Departure Airport - Wind Speed', 
-                                          ('<10 km/h', '10-20 km/h', '20-30 km/h', '>30 km/h'))
     login_frequency = st.selectbox('Weather at Departure Airport - Precipitation', 
                                                    ('None', 'Rain', 'Snow', 'Fog'))
 with col2:
