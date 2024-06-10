@@ -1,11 +1,13 @@
 import os
+import joblib
 import pickle
 import streamlit as st
 import pandas as pd
 from PIL import Image
 
+
 # Set page configuration
-st.set_page_config(page_title="Metaverse Fraud Analysis",
+st.set_page_config(page_title="Flight Delay Prediction",
                    layout="wide",
                    page_icon="🔐")
 
