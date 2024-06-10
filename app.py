@@ -11,7 +11,6 @@ st.set_page_config(page_title="Flight Delay Prediction",
 
 # Define paths for the model files
 model_path = 'rf_model.sav'
-encoder_columns_path = 'encoder_columns.sav'
 
 # Function to load a pickle file and handle errors
 def load_pickle(file_path):
@@ -30,11 +29,11 @@ model = load_pickle(model_path)
 
 # Manually define the expected encoder columns based on the training data
 expected_columns = [
-    'time_category_before 6am', 'time_category_6am to 11:59am', 'time_category_12pm to 6pm', 'time_category_after 6pm',
+    'time_category_before 6am', 'time_category_6am to 11.59pm', 'time_category_12pm to 6pm', 'time_category_after 6pm',
     'age_group_established', 'age_group_new', 'age_group_veteran',
     'amount', 'ip_prefix_10.0', 'ip_prefix_172.0', 'ip_prefix_172.16', 'ip_prefix_192.0', 'ip_prefix_192.168',
     'location_region_Africa', 'location_region_Asia', 'location_region_Europe', 'location_region_North America', 'location_region_South America',
-    'purchase_pattern_focused', 'purchase_pattern_high value', 'purchase_pattern_random',
+    'purchase_pattern_focused', 'purchase_pattern_high_value', 'purchase_pattern_random',
     'transaction_type_phishing', 'transaction_type_purchase', 'transaction_type_sale', 'transaction_type_scam', 'transaction_type_transfer',
     'session_duration', 'login_frequency', 'risk_score'
 ]
@@ -69,7 +68,7 @@ col1, col2 = st.columns(2)
 
 # Actual input for prediction
 with col1:
-    time_category = st.selectbox('Departure Time', ('before 6am', '6am to 11:59am', '12pm to 6pm', 'after 6pm'))
+    time_category = st.selectbox('Departure Time', ('before 6am', '6am to 11.59pm', '12pm to 6pm', 'after 6pm'))
 
 # Dummy inputs for display purposes
 with col2:
@@ -113,7 +112,7 @@ if st.button('Predict Delay'):
         'location_region_North America': [0],
         'location_region_South America': [0],
         'purchase_pattern_focused': [0],
-        'purchase_pattern_high value': [0],
+        'purchase_pattern_high_value': [0],
         'purchase_pattern_random': [0],
         'transaction_type_phishing': [0],
         'transaction_type_purchase': [0],
