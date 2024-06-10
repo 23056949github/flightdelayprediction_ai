@@ -54,7 +54,7 @@ with col2:
 with col1:
     location_region = st.selectbox('Flight Region', ('Africa', 'Asia', 'Europe', 'North America', 'South America'))
 with col2:
-    risk_score = st.number_input('Risk Score')
+    login_frequency = st.number_input('Login Frequency',step=1)
 with col2:
     ip_prefix = st.selectbox('IP Prefix', ('10.0', '172.0', '172.16', '192.0', '192.168'))
 with col1:
@@ -95,11 +95,11 @@ if st.button('Predict Risk'):
     # Make the prediction
     prediction = model.predict(input_data)
 
-    # Display the prediction result
+    # Select Probability of Delay Output
 
     if prediction[0] == '0':
-        st.success('This flight is less likely to .')
+        st.success('There is a Low Probability of Delay.')
     elif prediction[0] == '1':
-        st.warning('This transaction is predicted to be moderate risk.')
+        st.warning('There is a Moderate Probability of Delay.')
     elif prediction[0] == '2':
-        st.error('This transaction is predicted to be high risk.')
+        st.error('There is a High Probability of Delay.')
