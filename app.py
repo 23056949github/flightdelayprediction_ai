@@ -1,11 +1,13 @@
 import streamlit as st
 import pandas as pd
 import pickle
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.preprocessing import StandardScaler
 
 # Load the models and encoders
 scaler = pickle.load(open('scaler.sav', 'rb'))
-encoder = pickle.load(open('encoder.sav', 'rb'))
+airline_encoder = pickle.load(open('airline_encoder.sav', 'rb'))
+origin_encoder = pickle.load(open('origin_encoder.sav', 'rb'))
+destination_encoder = pickle.load(open('destination_encoder.sav', 'rb'))
 model = pickle.load(open('rf_model.sav', 'rb'))
 
 # Define the Streamlit app
@@ -28,23 +30,19 @@ input_data = pd.DataFrame({
     'arrival_time': [arrival_time]
 })
 
-# Check if the encoder is a LabelEncoder instance
-if not isinstance(encoder, LabelEncoder):
-    st.error("The encoder is not a LabelEncoder instance. Please check your encoder.")
-else:
-    # Encode and scale the data
-    input_data['airline'] = encoder.transform(input_data['airline'])
-    input_data['origin'] = encoder.transform(input_data['origin'])
-    input_data['destination'] = encoder.transform(input_data['destination'])
-    input_data = scaler.transform(input_data)
+# Encode and scale the data
+input_data['airline'] = airline_encoder.transform(input_data['airline'])
+input_data['origin'] = origin_encoder.transform(input_data['origin'])
+input_data['destination'] = destination_encoder.transform(input_data['destination'])
+input_data = scaler.transform(input_data)
 
-    # Make predictions
-    prediction = model.predict(input_data)
-    probability = model.predict_proba(input_data)
+# Make predictions
+prediction = model.predict(input_data)
+probability = model.predict_proba(input_data)
 
-    # Display results
-    st.write(f'Prediction: {"Delayed" if prediction[0] else "On Time"}')
-    st.write(f'Probability of Delay: {probability[0][1]:.2f}')
+# Display results
+st.write(f'Prediction: {"Delayed" if prediction[0] else "On Time"}')
+st.write(f'Probability of Delay: {probability[0][1]:.2f}')
 
-    if st.checkbox('Show input data'):
-        st.write(input_data)
+if st.checkbox('Show input data'):
+    st.write(input_data)
