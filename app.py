@@ -30,10 +30,15 @@ input_data = pd.DataFrame({
     'arrival_time': [arrival_time]
 })
 
-# Encode and scale the data
+# Encode categorical features
 input_data['airline'] = airline_encoder.transform(input_data['airline'])
 input_data['origin'] = origin_encoder.transform(input_data['origin'])
 input_data['destination'] = destination_encoder.transform(input_data['destination'])
+
+# Ensure the order of columns matches the scaler's expected order
+input_data = input_data[['airline', 'origin', 'destination', 'departure_time', 'arrival_time']]
+
+# Scale the data
 input_data = scaler.transform(input_data)
 
 # Make predictions
