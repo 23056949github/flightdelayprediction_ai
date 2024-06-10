@@ -9,11 +9,22 @@ st.set_page_config(page_title="Flight Delay Prediction",
                    layout="wide",
                    page_icon="✈️")
 
+# Define paths for the model files
+model_path = 'rf_model.sav'
+encoder_columns_path = 'encoder_columns.sav'
+
 # Load the saved models
-with open('rf_model.sav', 'rb') as model_file:
-    model = pickle.load(model_file)
-with open('encoder_columns.sav', 'rb') as encoder_file:
-    encoder_columns = pickle.load(encoder_file)
+try:
+    with open(model_path, 'rb') as model_file:
+        model = pickle.load(model_file)
+except FileNotFoundError:
+    st.error(f"Model file not found at path: {model_path}")
+
+try:
+    with open(encoder_columns_path, 'rb') as encoder_file:
+        encoder_columns = pickle.load(encoder_file)
+except FileNotFoundError:
+    st.error(f"Encoder columns file not found at path: {encoder_columns_path}")
 
 # Define the title text
 title_text = "Flight Delay Prediction"
@@ -64,32 +75,36 @@ with col2:
 
 # Code for Prediction
 if st.button('Predict Delay'):
-    # Create a DataFrame with the actual input data
-    input_data = pd.DataFrame({
-        'time_category': [time_category],
-    })
+    # Ensure the model and encoder columns are loaded
+    if 'model' in locals() and 'encoder_columns' in locals():
+        # Create a DataFrame with the actual input data
+        input_data = pd.DataFrame({
+            'time_category': [time_category],
+        })
 
-    # Perform one-hot encoding using pd.get_dummies
-    input_data_encoded = pd.get_dummies(input_data, dtype=int)
+        # Perform one-hot encoding using pd.get_dummies
+        input_data_encoded = pd.get_dummies(input_data, dtype=int)
 
-    # Define the expected columns based on the training data
-    expected_columns = ['time_category_before 6am', 'time_category_6am to 11:59am', 'time_category_12pm to 6pm', 'time_category_after 6pm']
+        # Define the expected columns based on the training data
+        expected_columns = ['time_category_before 6am', 'time_category_6am to 11:59am', 'time_category_12pm to 6pm', 'time_category_after 6pm']
 
-    # Reindex the DataFrame to match the expected structure
-    input_data_encoded = input_data_encoded.reindex(columns=expected_columns, fill_value=0)
+        # Reindex the DataFrame to match the expected structure
+        input_data_encoded = input_data_encoded.reindex(columns=expected_columns, fill_value=0)
 
-    # Ensure input_data_encoded has the correct columns for the model
-    for col in expected_columns:
-        if col not in input_data_encoded.columns:
-            input_data_encoded[col] = 0
+        # Ensure input_data_encoded has the correct columns for the model
+        for col in expected_columns:
+            if col not in input_data_encoded.columns:
+                input_data_encoded[col] = 0
 
-    # Perform the prediction
-    prediction = model.predict(input_data_encoded)
+        # Perform the prediction
+        prediction = model.predict(input_data_encoded)
 
-    # Select Probability of Delay Output
-    if prediction[0] == 0:
-        st.success('There is a Low Probability of Delay.')
-    elif prediction[0] == 1:
-        st.warning('There is a Moderate Probability of Delay.')
-    elif prediction[0] == 2:
-        st.error('There is a High Probability of Delay.')
+        # Select Probability of Delay Output
+        if prediction[0] == 0:
+            st.success('There is a Low Probability of Delay.')
+        elif prediction[0] == 1:
+            st.warning('There is a Moderate Probability of Delay.')
+        elif prediction[0] == 2:
+            st.error('There is a High Probability of Delay.')
+    else:
+        st.error("Model or encoder columns not loaded properly.")
