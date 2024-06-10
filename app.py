@@ -12,9 +12,7 @@ st.set_page_config(page_title="Flight Delay Prediction",
 # Load the saved models
 with open('rf_model.sav', 'rb') as model_file:
     model = pickle.load(model_file)
-with open('scaler.sav', 'rb') as scaler_file:
-    scaler = pickle.load(scaler_file)
-with open('encoder.sav', 'rb') as encoder_file:
+with open('encoder_columns.sav', 'rb') as encoder_file:
     encoder_columns = pickle.load(encoder_file)
 
 # Define the title text
@@ -75,13 +73,13 @@ if st.button('Predict Delay'):
     input_data_encoded = pd.get_dummies(input_data, dtype=int)
 
     # Define the expected columns based on the training data
-    encoder_columns = ['time_category_before 6am', 'time_category_6am to 11:59am', 'time_category_12pm to 6pm', 'time_category_after 6pm']
+    expected_columns = ['time_category_before 6am', 'time_category_6am to 11:59am', 'time_category_12pm to 6pm', 'time_category_after 6pm']
 
     # Reindex the DataFrame to match the expected structure
-    input_data_encoded = input_data_encoded.reindex(columns=encoder_columns, fill_value=0)
+    input_data_encoded = input_data_encoded.reindex(columns=expected_columns, fill_value=0)
 
     # Ensure input_data_encoded has the correct columns for the model
-    for col in encoder_columns:
+    for col in expected_columns:
         if col not in input_data_encoded.columns:
             input_data_encoded[col] = 0
 
