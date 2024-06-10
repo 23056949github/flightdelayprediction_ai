@@ -29,13 +29,11 @@ model = load_pickle(model_path)
 
 # Manually define the expected encoder columns based on the training data
 expected_columns = [
-    'time_category_before 6am', 'time_category_6am to 11.59pm', 'time_category_12pm to 6pm', 'time_category_after 6pm',
-    'age_group_established', 'age_group_new', 'age_group_veteran',
-    'amount', 'ip_prefix_10.0', 'ip_prefix_172.0', 'ip_prefix_172.16', 'ip_prefix_192.0', 'ip_prefix_192.168',
-    'location_region_Africa', 'location_region_Asia', 'location_region_Europe', 'location_region_North America', 'location_region_South America',
-    'purchase_pattern_focused', 'purchase_pattern_high_value', 'purchase_pattern_random',
-    'transaction_type_phishing', 'transaction_type_purchase', 'transaction_type_sale', 'transaction_type_scam', 'transaction_type_transfer',
-    'session_duration', 'login_frequency', 'risk_score'
+    'time_category_before 6am', 'time_category_6am to 11.59am', 'time_category_12pm to 6pm', 'time_category_after 6pm',
+    'day_of_week_Monday', 'day_of_week_Tuesday', 'day_of_week_Wednesday', 'day_of_week_Thursday', 'day_of_week_Friday', 'day_of_week_Saturday', 'day_of_week_Sunday',
+    'departure_airport_traffic_Low', 'departure_airport_traffic_Medium', 'departure_airport_traffic_High',
+    'arrival_airport_traffic_Low', 'arrival_airport_traffic_Medium', 'arrival_airport_traffic_High',
+    'flight_duration', 'flight_number'
 ]
 
 if model is None:
@@ -66,59 +64,26 @@ st.markdown(title_html, unsafe_allow_html=True)
 # Getting the input data from the user
 col1, col2 = st.columns(2)
 
-# Actual input for prediction
+# Input fields for user data
 with col1:
-    time_category = st.selectbox('Departure Time', ('before 6am', '6am to 11.59pm', '12pm to 6pm', 'after 6pm'))
-
-# Dummy inputs for display purposes
+    time_category = st.selectbox('Scheduled Departure Time', ('before 6am', '6am to 11.59am', '12pm to 6pm', 'after 6pm'))
+    day_of_week = st.selectbox('Day of the Week', ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))
+    departure_airport_traffic = st.selectbox('Departure Airport Traffic', ('Low', 'Medium', 'High'))
+    arrival_airport_traffic = st.selectbox('Arrival Airport Traffic', ('Low', 'Medium', 'High'))
 with col2:
-    st.number_input('Flight Number')
-with col1:
-    st.selectbox('Day of the Week', ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))
-with col2:
-    st.number_input('Flight Time (minutes)')
-with col1:
-    st.selectbox('Flight Region', ('Africa', 'Asia', 'Europe', 'North America', 'South America'))
-with col2:
-    st.number_input('Login Frequency', step=1)
-with col2:
-    st.selectbox('IP Prefix', ('10.0', '172.0', '172.16', '192.0', '192.168'))
-with col1:
-    st.selectbox('Departure Airport Traffic', ('Low', 'Medium', 'High'))
-with col2:
-    st.selectbox('Arrival Airport Traffic', ('Low', 'Medium', 'High'))
+    flight_number = st.number_input('Flight Number')
+    flight_duration = st.number_input('Flight Duration (minutes)', step=1)
 
 # Code for Prediction
 if st.button('Predict Delay'):
     # Create a DataFrame with the actual input data
     input_data = pd.DataFrame({
         'time_category': [time_category],
-        # Provide default values for other required features
-        'amount': [0],
-        'session_duration': [0],
-        'login_frequency': [0],
-        'risk_score': [0],
-        'age_group_established': [0],
-        'age_group_new': [0],
-        'age_group_veteran': [0],
-        'ip_prefix_10.0': [0],
-        'ip_prefix_172.0': [0],
-        'ip_prefix_172.16': [0],
-        'ip_prefix_192.0': [0],
-        'ip_prefix_192.168': [0],
-        'location_region_Africa': [0],
-        'location_region_Asia': [0],
-        'location_region_Europe': [0],
-        'location_region_North America': [0],
-        'location_region_South America': [0],
-        'purchase_pattern_focused': [0],
-        'purchase_pattern_high_value': [0],
-        'purchase_pattern_random': [0],
-        'transaction_type_phishing': [0],
-        'transaction_type_purchase': [0],
-        'transaction_type_sale': [0],
-        'transaction_type_scam': [0],
-        'transaction_type_transfer': [0]
+        'day_of_week': [day_of_week],
+        'departure_airport_traffic': [departure_airport_traffic],
+        'arrival_airport_traffic': [arrival_airport_traffic],
+        'flight_number': [flight_number],
+        'flight_duration': [flight_duration]
     })
 
     # Perform one-hot encoding using pd.get_dummies
