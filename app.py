@@ -80,6 +80,11 @@ if st.button('Predict Delay'):
     # Reindex the DataFrame to match the expected structure
     input_data_encoded = input_data_encoded.reindex(columns=encoder_columns, fill_value=0)
 
+    # Ensure input_data_encoded has the correct columns for the model
+    for col in encoder_columns:
+        if col not in input_data_encoded.columns:
+            input_data_encoded[col] = 0
+
     # Perform the prediction
     prediction = model.predict(input_data_encoded)
 
