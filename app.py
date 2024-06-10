@@ -72,18 +72,14 @@ if st.button('Predict Delay'):
     # Perform one-hot encoding using pd.get_dummies
     input_data_encoded = pd.get_dummies(input_data, dtype=int)
 
-    # Assuming the model was trained with a specific set of columns,
-    # we need to ensure our input data matches that structure.
+    # Define the expected columns based on the training data
     encoder_columns = ['time_category_before 6am', 'time_category_6am to 11:59am', 'time_category_12pm to 6pm', 'time_category_after 6pm']
 
-    # Reorder columns to match the sequence of features used during model training
-    input_data = input_data_encoded.reindex(columns=encoder_columns, fill_value=0)
-
-    # Load the trained model (assuming the model is pre-loaded as 'model')
-    # model = ...
+    # Reindex the DataFrame to match the expected structure
+    input_data_encoded = input_data_encoded.reindex(columns=encoder_columns, fill_value=0)
 
     # Perform the prediction
-    prediction = model.predict(input_data)
+    prediction = model.predict(input_data_encoded)
 
     # Select Probability of Delay Output
 
