@@ -52,7 +52,7 @@ with col1:
 with col2:
     session_duration = st.number_input('Flight Time (minutes)')
 with col1:
-    login_frequency = st.selectbox(Airline', ('American Airlines', 'Delta', 'United', 'Southwest', 'JetBlue', 'Alaska Airlines')) 
+    login_frequency = st.selectbox('Airline', ('American Airlines', 'Delta', 'United', 'Southwest', 'JetBlue', 'Alaska Airlines')) 
 with col2:
     risk_score = st.number_input('Risk Score')
 with col2:
