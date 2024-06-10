@@ -59,7 +59,7 @@ with col1:
 with col2:
     risk_score = st.number_input('Risk Score')
 with col1:
-    location_region = st.selectbox(''Weather at Departure Airport - Precipitation', ('None', 'Rain', 'Snow', 'Fog'))
+    location_region = st.selectbox('Weather at Departure Airport - Precipitation', ('None', 'Rain', 'Snow', 'Fog'))
 with col2:
     ip_prefix = st.selectbox('IP Prefix', ('10.0', '172.0', '172.16', '192.0', '192.168'))
 with col1:
