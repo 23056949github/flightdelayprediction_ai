@@ -81,7 +81,7 @@ if st.button('Predict Delay'):
     input_data_encoded = input_data_encoded.reindex(columns=encoder_columns, fill_value=0)
 
     # Perform the prediction
-    prediction = model.predict(input_data_encoded)
+    prediction = model.predict(input_data)
 
     # Select Probability of Delay Output
     if prediction[0] == 0:
