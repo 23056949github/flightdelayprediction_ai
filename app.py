@@ -64,7 +64,7 @@ with col2:
 
 # Code for Prediction
 if st.button('Predict Delay'):
-    # Create a DataFrame with input data
+    # Create a DataFrame with the actual input data
     input_data = pd.DataFrame({
         'time_category': [time_category],
     })
@@ -82,10 +82,9 @@ if st.button('Predict Delay'):
     prediction = model.predict(input_data_encoded)
 
     # Select Probability of Delay Output
-
-    if prediction[0] == '0':
+    if prediction[0] == 0:
         st.success('There is a Low Probability of Delay.')
-    elif prediction[0] == '1':
+    elif prediction[0] == 1:
         st.warning('There is a Moderate Probability of Delay.')
-    elif prediction[0] == '2':
+    elif prediction[0] == 2:
         st.error('There is a High Probability of Delay.')
