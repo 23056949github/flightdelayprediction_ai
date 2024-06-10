@@ -44,13 +44,13 @@ st.markdown(title_html, unsafe_allow_html=True)
 col1, col2 = st.columns(2)
 
 with col1:
-    time_category = st.selectbox('Transaction Time',('before 6am', '6am to 11.59pm', '12pm to 6pm','after 6pm'))
+    time_category = st.selectbox('Departure Time',('before 6am', '6am to 11.59pm', '12pm to 6pm','after 6pm'))
 with col2:
-    amount = st.number_input('Transaction Amount')
+    amount = st.number_input('Flight Number')
 with col1:
     transaction_type = st.selectbox('Transaction Type', ('phishing', 'purchase', 'sale', 'scam', 'transfer'))
 with col2:
-    session_duration = st.number_input('Time taken of each activity sessions (minutes)')
+    session_duration = st.number_input('Flight Time (minutes)')
 with col1:
     login_frequency = st.number_input('Login Frequency',step=1)
 with col2:
