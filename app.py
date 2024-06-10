@@ -1,5 +1,25 @@
 import streamlit as st
 
+# Define the title text
+title_text = "Flight Delay Prediction"
+
+# Define the background color and text color of the title box
+background_color = "#23395d"
+box_background_color = "#23395d"
+text_color = "#ffffff"
+
+# Apply HTML and CSS to style the title
+title_html = f"""
+    <div style="background-color:{box_background_color};padding:8px;border-radius:10px;">
+        <h1 style="color:{text_color};text-align:center;">{title_text}</h1>
+    </div>
+    <body>
+      <br>
+        <center>Welcome! We're here to help predict your flight delays.</center>
+    </body>
+"""
+
+
 # Define the layout for the inputs
 col1, col2 = st.columns(2)
 
