@@ -11,6 +11,7 @@ st.set_page_config(page_title="Flight Delay Prediction",
 
 # Define paths for the model files
 model_path = 'rf_model.sav'
+encoder_columns_path = 'encoder_columns.sav'
 
 # Function to load a pickle file and handle errors
 def load_pickle(file_path):
@@ -27,8 +28,16 @@ def load_pickle(file_path):
 # Load the saved model
 model = load_pickle(model_path)
 
-# Manually define the encoder columns
-encoder_columns = ['time_category_before 6am', 'time_category_6am to 11:59am', 'time_category_12pm to 6pm', 'time_category_after 6pm']
+# Manually define the expected encoder columns based on the training data
+expected_columns = [
+    'time_category_before 6am', 'time_category_6am to 11:59am', 'time_category_12pm to 6pm', 'time_category_after 6pm',
+    'age_group_established', 'age_group_new', 'age_group_veteran',
+    'amount', 'ip_prefix_10.0', 'ip_prefix_172.0', 'ip_prefix_172.16', 'ip_prefix_192.0', 'ip_prefix_192.168',
+    'location_region_Africa', 'location_region_Asia', 'location_region_Europe', 'location_region_North America', 'location_region_South America',
+    'purchase_pattern_focused', 'purchase_pattern_high value', 'purchase_pattern_random',
+    'transaction_type_phishing', 'transaction_type_purchase', 'transaction_type_sale', 'transaction_type_scam', 'transaction_type_transfer',
+    'session_duration', 'login_frequency', 'risk_score'
+]
 
 if model is None:
     st.stop()  # Stop execution if the model is not loaded properly
@@ -85,21 +94,39 @@ if st.button('Predict Delay'):
     # Create a DataFrame with the actual input data
     input_data = pd.DataFrame({
         'time_category': [time_category],
+        # Provide default values for other required features
+        'amount': [0],
+        'session_duration': [0],
+        'login_frequency': [0],
+        'risk_score': [0],
+        'age_group_established': [0],
+        'age_group_new': [0],
+        'age_group_veteran': [0],
+        'ip_prefix_10.0': [0],
+        'ip_prefix_172.0': [0],
+        'ip_prefix_172.16': [0],
+        'ip_prefix_192.0': [0],
+        'ip_prefix_192.168': [0],
+        'location_region_Africa': [0],
+        'location_region_Asia': [0],
+        'location_region_Europe': [0],
+        'location_region_North America': [0],
+        'location_region_South America': [0],
+        'purchase_pattern_focused': [0],
+        'purchase_pattern_high value': [0],
+        'purchase_pattern_random': [0],
+        'transaction_type_phishing': [0],
+        'transaction_type_purchase': [0],
+        'transaction_type_sale': [0],
+        'transaction_type_scam': [0],
+        'transaction_type_transfer': [0]
     })
 
     # Perform one-hot encoding using pd.get_dummies
     input_data_encoded = pd.get_dummies(input_data, dtype=int)
 
-    # Define the expected columns based on the training data
-    expected_columns = ['time_category_before 6am', 'time_category_6am to 11:59am', 'time_category_12pm to 6pm', 'time_category_after 6pm']
-
     # Reindex the DataFrame to match the expected structure
     input_data_encoded = input_data_encoded.reindex(columns=expected_columns, fill_value=0)
-
-    # Ensure input_data_encoded has the correct columns for the model
-    for col in expected_columns:
-        if col not in input_data_encoded.columns:
-            input_data_encoded[col] = 0
 
     # Perform the prediction
     try:
