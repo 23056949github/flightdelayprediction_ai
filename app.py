@@ -31,19 +31,19 @@ st.markdown(title_html, unsafe_allow_html=True)
 # Define the layout for the inputs
 col1, col2 = st.columns(2)
 
-# Select box for Departure Time
+# Select box for Airline
 with col1:
-    departure_time = st.selectbox('Scheduled Departure Time', 
-                                  ('before 6am', '6am to 11:59am', '12pm to 6pm', 'after 6pm'))
+    airline = st.selectbox('Airline', 
+                           ('Singapore Airlines', 'AirAsia', 'British Airways', 'Cathay Pacific', 'Emirates', 'United Airlines', 'Lufthansa', 'Qantas', 'Qatar Airways', 'Korean Air', 'Japan Airlines', 'China Eastern Airlines', 'China Southern Airlines', 'Thai Airways', 'Jetstar Asia', 'Scoot', 'Malaysia Airlines', 'Philippine Airlines', 'Vietnam Airlines', 'Ethiopian Airlines'))
 
 # Text input for Flight Number
 with col2:
     flight_number = st.text_input('Flight Number')
-
-# Select box for Day of the Week
+  
+# Select box for Departure Time
 with col1:
-    day_of_week = st.selectbox('Day of the Week', 
-                               ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))
+    departure_time = st.selectbox('Scheduled Departure Time', 
+                                  ('before 6am', '6am to 11:59am', '12pm to 6pm', 'after 6pm'))
 
 # Time input for Scheduled Arrival Time
 with col2:
@@ -84,10 +84,10 @@ with col2:
 with col1:
     historical_delays = st.selectbox('Historical Delays for the Specific Flight', ('None', 'Low', 'Medium', 'High'))
 
-# Select box for Airline
+# Select box for Day of the Week
 with col2:
-    airline = st.selectbox('Airline', 
-                           ('American Airlines', 'Delta', 'United', 'Southwest', 'JetBlue', 'Alaska Airlines'))
+    day_of_week = st.selectbox('Day of the Week', 
+                               ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'))
 
 # Predict button
 if st.button('Predict'):
