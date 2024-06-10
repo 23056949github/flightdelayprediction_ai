@@ -69,26 +69,20 @@ if st.button('Predict Delay'):
         'time_category': [time_category],
     })
 
-  # Perform one-hot encoding using pd.get_dummies
+    # Perform one-hot encoding using pd.get_dummies
     input_data_encoded = pd.get_dummies(input_data, dtype=int)
 
     # Assuming the model was trained with a specific set of columns,
     # we need to ensure our input data matches that structure.
     encoder_columns = ['time_category_before 6am', 'time_category_6am to 11:59am', 'time_category_12pm to 6pm', 'time_category_after 6pm']
-  
-   # Reorder columns to match the sequence of features used during model training
+
+    # Reorder columns to match the sequence of features used during model training
     input_data = input_data_encoded.reindex(columns=encoder_columns, fill_value=0)
 
-    # Scale the numerical features
-    numerical_features = ['amount', 'login_frequency', 'session_duration', 'risk_score']
-    input_data_scaled = scaler.transform(input_data[numerical_features])
-    input_data_scaled = pd.DataFrame(input_data_scaled, columns=numerical_features)
-    
-    # Concatenate encoded categorical features and standardized numerical features
-    input_data = pd.concat([input_data_encoded.reset_index(drop=True), input_data_scaled.reset_index(drop=True)],axis=1)
+    # Load the trained model (assuming the model is pre-loaded as 'model')
+    # model = ...
 
-
-    # Make the prediction
+    # Perform the prediction
     prediction = model.predict(input_data)
 
     # Select Probability of Delay Output
